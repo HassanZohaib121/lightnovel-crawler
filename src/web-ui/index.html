@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTLBooks Crawler - Web UI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-spider"></i> MTLBooks Crawler</h1>
+            <p>Production-grade web novel crawler with a friendly web interface</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Configuration Form -->
+            <div class="card">
+                <h2><i class="fas fa-cog"></i> Crawl Configuration</h2>
+                <form id="crawlForm">
+                    <div class="form-group">
+                        <label for="url">Novel URL *</label>
+                        <input type="url" id="url" name="url" required 
+                               placeholder="https://mtlbooks.com/novel/example-novel">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="range">Chapter Range</label>
+                            <select id="range" name="range">
+                                <option value="all">All Chapters</option>
+                                <option value="1-50">Chapters 1-50</option>
+                                <option value="1-100">Chapters 1-100</option>
+                                <option value="custom">Custom Range</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="customRangeGroup" style="display: none;">
+                            <label for="customRange">Custom Range</label>
+                            <input type="text" id="customRange" name="customRange" 
+                                   placeholder="1-50,75,120-">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="concurrency">Concurrency</label>
+                            <input type="number" id="concurrency" name="concurrency" 
+                                   min="1" max="10" value="2">
+                            <small>Number of simultaneous requests (1-10)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="delay">Delay (ms)</label>
+                            <input type="text" id="delay" name="delay" value="1200-2200"
+                                   placeholder="1000-2000">
+                            <small>Delay between requests</small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="headless">Browser Mode</label>
+                            <select id="headless" name="headless">
+                                <option value="true">Headless (Background)</option>
+                                <option value="false">Visible Browser</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="logLevel">Log Level</label>
+                            <select id="logLevel" name="logLevel">
+                                <option value="info">Info</option>
+                                <option value="debug">Debug</option>
+                                <option value="warn">Warning</option>
+                                <option value="error">Error</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="epub" name="epub">
+                                Generate EPUB
+                            </label>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="txt" name="txt">
+                                Generate TXT
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-play"></i> Start Crawl
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            <i class="fas fa-undo"></i> Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Active Crawls -->
+            <div class="card">
+                <h2><i class="fas fa-list"></i> Active Crawls</h2>
+                <div id="crawlsList">
+                    <div class="no-crawls">
+                        <i class="fas fa-info-circle"></i>
+                        <p>No active crawls. Start a new crawl above.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                <div class="quick-actions">
+                    <button class="btn btn-outline" onclick="openDownloads()">
+                        <i class="fas fa-folder-open"></i> Open Downloads
+                    </button>
+                    <button class="btn btn-outline" onclick="refreshStatus()">
+                        <i class="fas fa-sync"></i> Refresh Status
+                    </button>
+                    <button class="btn btn-outline" onclick="showHelp()">
+                        <i class="fas fa-question-circle"></i> Help
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-question-circle"></i> Help & Tips</h3>
+                <span class="close" onclick="closeHelp()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4>Getting Started</h4>
+                <ol>
+                    <li>Enter the MTLBooks novel URL you want to crawl</li>
+                    <li>Choose your preferred settings (or use defaults)</li>
+                    <li>Click "Start Crawl" to begin</li>
+                    <li>Monitor progress in the Active Crawls section</li>
+                </ol>
+
+                <h4>Chapter Range Examples</h4>
+                <ul>
+                    <li><strong>All Chapters:</strong> Downloads the entire novel</li>
+                    <li><strong>1-50:</strong> Downloads chapters 1 through 50</li>
+                    <li><strong>Custom:</strong> Use formats like "1-10,25,50-100"</li>
+                </ul>
+
+                <h4>Performance Tips</h4>
+                <ul>
+                    <li>Start with concurrency 2-3 for stability</li>
+                    <li>Use delays of 1000-2000ms to be respectful</li>
+                    <li>Headless mode is faster but visible mode helps with debugging</li>
+                </ul>
+
+                <h4>Output Formats</h4>
+                <ul>
+                    <li><strong>Markdown:</strong> Always generated (individual chapter files)</li>
+                    <li><strong>EPUB:</strong> E-book format for reading devices</li>
+                    <li><strong>TXT:</strong> Plain text format for simple reading</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

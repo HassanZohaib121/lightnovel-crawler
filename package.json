@@ -1,0 +1,49 @@
+{
+  "name": "mtlbooks-crawler",
+  "version": "1.0.0",
+  "description": "Production-grade web novel crawler for MTLBooks.com",
+  "main": "src/index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "web": "node src/web-ui.js",
+    "setup": "node install.js",
+    "postinstall": "npx puppeteer browsers install chrome --path ./browser-cache || echo 'Browser install failed, using system Chrome'"
+  },
+  "bin": {
+    "mtlbooks-crawler": "./src/index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^14.0.0",
+    "epub-gen": "^0.1.0",
+    "express": "^4.21.2",
+    "file-type": "^18.7.0",
+    "jsdom": "^23.0.1",
+    "node-html-parser": "^6.1.12",
+    "ora": "^7.0.1",
+    "p-limit": "^7.1.0",
+    "p-retry": "^7.0.0",
+    "puppeteer": "^24.17.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "robots-txt-parse": "^2.0.1",
+    "sanitize-filename": "^1.6.3",
+    "turndown": "^7.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5"
+  },
+  "keywords": [
+    "web-scraping",
+    "novel-crawler",
+    "mtlbooks",
+    "epub",
+    "cli"
+  ],
+  "author": "MTLBooks Crawler",
+  "license": "MIT"
+}

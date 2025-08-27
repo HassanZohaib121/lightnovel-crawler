@@ -1,0 +1,8 @@
+downloads
+node_modules
+browser-cache
+
+
+./downloads
+./node_modules
+./browser-cache
