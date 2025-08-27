@@ -1,4 +1,4 @@
-# MTLBooks Crawler
+# Lightnovel Crawler
 
 A production-grade web novel crawler for [MTLBooks.com](https://mtlbooks.com) built with Node.js. Features robust scraping, resumable downloads, EPUB generation, and clean Markdown output.
 
