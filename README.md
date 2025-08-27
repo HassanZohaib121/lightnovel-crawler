@@ -17,8 +17,8 @@ A production-grade web novel crawler for [MTLBooks.com](https://mtlbooks.com) bu
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd mtlbooks-crawler
+git clone https://github.com/HassanZohaib121/lightnovel-crawler
+cd lightnovel-crawler
 
 # Install dependencies
 npm install
